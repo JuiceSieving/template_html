@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表格</title>
+    <style>
+      #app{margin:50px auto;width:600px;}
+      fieldset{border:1px solid purple;margin-bottom:20px;}
+      fieldset input{width:200px;height:30px;margin:10px 0;}
+      table{width:600px;border:2px solid purple;text-align:center;}
+      thead{background-color:purple;color:#fff;}
+    </style>
+</head>
+<body>
+  <div id="app">
+    <!--上部分-->
+    <fieldset>
+      <legend>人员信息录入系统(Vue版)</legend>
+      <div>
+        <label>
+          姓名：<input type="text" placeholder="请输入姓名" v-model.trim="newGuy.name"/>
+        </label>
+      </div>
+      <div>
+          <label>
+            年龄：<input type="text" placeholder="请输入年龄" v-model.trim="newGuy.age"/>
+          </label>
+      </div>
+      <div>
+        <label>性别：
+          <select v-model.trim="newGuy.sex">
+            <option value="男">男</option>
+            <option value="女">女</option>
+          </select>
+        </label>
+      </div>
+      <div>
+        <label>
+        手机：<input type="text" placeholder="请输入手机号码" v-model.trim="newGuy.phone"/>
+        </label>
+      </div>
+      <button @click="addGuy">创建新用户</button>
+    </fieldset>
+            <!--下部分-->
+    <table>
+      <thead><tr>
+        <td>姓名</td><td>性别</td><td>年龄</td><td>手机</td><td>删除</td>
+      </tr></thead>
+      <tbody><tr v-for="(guy,index) in guys" :key="index">
+<!--        <td>张三</td>-->
+<!--        <td>男</td>-->
+<!--        <td>18</td>-->
+<!--        <td>18932322333</td>-->
+<!--        <td>-->
+<!--          <button>删除</button>-->
+<!--        </td>-->
+        <td>{{guy.name}}</td>
+        <td>{{guy.sex}}</td>
+        <td>{{guy.age}}</td>
+        <td>{{guy.phone}}</td>
+        <td>
+          <button @click="delGuy(index)">删除</button>
+        </td>
+      </tr></tbody>
+    </table>
+  </div>
+</body>
+<script src="../js/vue.global.js"></script>
+<script>
+  const HelloVue = {
+    data() {
+      return {
+        message: "hello vue",
+        guys: [{'name': 'pjtsqu', 'age': 68, 'sex': '男', 'phone': '14439162757'}, {'name': 'gsbakzp', 'age': 85, 'sex': '男', 'phone': '13883980126'}, {'name': 'flnm', 'age': 65, 'sex': '女', 'phone': '13489616386'}, {'name': 'tda', 'age': 92, 'sex': '男', 'phone': '14393962491'}, {'name': 'sye', 'age': 96, 'sex': '男', 'phone': '19249153908'}, {'name': 'nldgtjf', 'age': 20, 'sex': '女', 'phone': '14951389704'}, {'name': 'urin', 'age': 46, 'sex': '男', 'phone': '14375566011'}, {'name': 'yxb', 'age': 62, 'sex': '男', 'phone': '19514269965'}],
+        newGuy: {'name': '', 'age': '', 'sex': '男', 'phone': ''}
+      }
+    },methods:{
+      delGuy(index){
+        this.guys.splice(index,1);
+      },
+      addGuy(){
+        const {name,age,sex,phone}=this.newGuy;
+        if(!name || !age || !sex || !phone){
+          alert("输入的信息不完整");
+          return
+        }
+        this.guys.unshift(this.newGuy);
+        this.newGuy={'name': '', 'age': '', 'sex': '男', 'phone': ''};
+      }
+    }
+  }
+  const app = Vue.createApp(HelloVue).mount("#app")
+</script>
+</html>
